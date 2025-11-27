@@ -49,9 +49,7 @@ function GallerySection() {
             <div className="gallery-header">
               <h3>{section.label}</h3>
               <div className="gallery-header-actions">
-                {!isExpanded && section.images.length > 4 && (
-                  <span className="gallery-count">{section.images.length} photos</span>
-                )}
+                <span className="gallery-count">{section.images.length} photos</span>
                 {section.images.length > 4 && (
                   <button
                     type="button"
@@ -63,6 +61,7 @@ function GallerySection() {
                 )}
               </div>
             </div>
+            {/* Desktop grid view */}
             <div className="gallery-grid">
               {visibleImages.map((image, index) => (
                 <button
@@ -72,6 +71,19 @@ function GallerySection() {
                   onClick={() =>
                     handleOpenImage(section.id, image, section.label, isExpanded ? index : index)
                   }
+                >
+                  <ResilientImage src={image} alt={section.label} className="gallery-img" />
+                </button>
+              ))}
+            </div>
+            {/* Mobile horizontal scroll view */}
+            <div className="gallery-scroll">
+              {section.images.map((image, index) => (
+                <button
+                  type="button"
+                  className="gallery-img-button"
+                  key={`${section.id}-${image}-mobile`}
+                  onClick={() => handleOpenImage(section.id, image, section.label, index)}
                 >
                   <ResilientImage src={image} alt={section.label} className="gallery-img" />
                 </button>

@@ -486,6 +486,10 @@ main {
   gap: 1.25rem;
 }
 
+.gallery-scroll {
+  display: none;
+}
+
 .gallery-section + .gallery-section {
   margin-top: 2.5rem;
 }
@@ -901,6 +905,71 @@ footer {
   .info-strip-mobile {
     display: block;
     margin-top: 1.5rem;
+  }
+
+  /* Gallery mobile - horizontal scroll */
+  .gallery-grid {
+    display: none;
+  }
+
+  .gallery-scroll {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(252, 188, 44, 0.3) transparent;
+  }
+
+  .gallery-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .gallery-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .gallery-scroll::-webkit-scrollbar-thumb {
+    background: rgba(252, 188, 44, 0.3);
+    border-radius: 3px;
+  }
+
+  .gallery-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(252, 188, 44, 0.5);
+  }
+
+  .gallery-scroll .gallery-img-button {
+    flex: 0 0 auto;
+    width: 280px;
+    scroll-snap-align: start;
+  }
+
+  .gallery-scroll .gallery-img {
+    height: 200px;
+    width: 100%;
+  }
+
+  .gallery-header-actions {
+    display: flex;
+  }
+
+  .gallery-toggle {
+    display: none;
+  }
+
+  .gallery-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .gallery-count {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
   }
 
   .primary,
