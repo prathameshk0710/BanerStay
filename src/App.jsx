@@ -1,147 +1,75 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
+  FiClock,
+  FiDroplet,
+  FiInstagram,
+  FiMapPin,
   FiPhoneCall,
-  FiWifi,
+  FiShield,
   FiThermometer,
   FiTv,
-  FiDroplet,
-  FiMapPin,
-  FiClock,
-  FiShield,
+  FiWifi,
 } from 'react-icons/fi'
 import { LuSofa } from 'react-icons/lu'
 import { MdLocalParking } from 'react-icons/md'
 import { TbBottle, TbSparkles } from 'react-icons/tb'
+import { FaWhatsapp } from 'react-icons/fa6'
+import ResilientImage from './components/ResilientImage'
+import {
+  contactInfo,
+  facilityDetails,
+  gallerySections,
+  heroMedia,
+  hourlyRates,
+  navLinks,
+  roomConcepts,
+  serviceChips,
+  socialLinks,
+  stayNotes,
+  stayPackages,
+} from './constants/hotelData'
 import './App.css'
 
-const fallbackImage =
-  'https://images.unsplash.com/photo-1505692794400-5e0c4c86fed1?auto=format&fit=crop&w=1200&q=80'
-
-const navLinks = [
-  { id: 'about', label: 'About' },
-  { id: 'facilities', label: 'Facilities' },
-  { id: 'rates', label: 'Rates' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'contact', label: 'Contact' },
-]
-
-const roomConcepts = [
-  {
-    title: 'Square Bed Studio',
-    description:
-      'Bright, air-conditioned studio with premium square bed, Android TV, and a cozy work nook for quick check-ins.',
-    tags: ['Android TV', 'Spacious layout', 'Mood lighting'],
-    image:
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'Round Bed Retreat',
-    description:
-      'Celebration-ready round bed suite featuring a couple couch, accent lighting, and décor options for birthdays or anniversaries.',
-    tags: ['Round bed', 'Couple couch', 'Decor add-ons'],
-    image:
-      'https://images.unsplash.com/photo-1504376379689-9aaa13e05818?auto=format&fit=crop&w=1200&q=80',
-  },
-]
-
-const facilities = [
-  { icon: <FiTv />, title: 'Android TV', detail: 'Smart OTT-ready entertainment built into every room.' },
-  { icon: <FiThermometer />, title: 'AC Rooms', detail: 'Climate-controlled comfort for Pune’s summers.' },
-  { icon: <FiWifi />, title: 'Free Wi-Fi', detail: 'High-speed internet for workcations and OTT binges.' },
-  {
-    icon: <MdLocalParking />,
-    title: 'Spacious Parking',
-    detail: 'Dedicated parking lane so arrivals stay stress-free.',
-  },
-  { icon: <LuSofa />, title: 'Couple Couch', detail: 'Plush lounge seating perfect for meals or movie nights.' },
-  { icon: <FiDroplet />, title: '24×7 Hot Water', detail: 'Instant geysers ensure constant hot water supply.' },
-  { icon: <TbBottle />, title: 'Complimentary Water', detail: 'Packaged drinking water placed before every check-in.' },
-  { icon: <FiShield />, title: '24 hrs Housekeeping', detail: 'Round-the-clock housekeeping & concierge support.' },
-  { icon: <TbSparkles />, title: 'Event Décor', detail: 'Birthday / anniversary decorations on prior request.' },
-]
-
-const hourlyRates = [
-  { duration: '2 Hours', price: '₹600' },
-  { duration: '3 Hours', price: '₹800' },
-  { duration: '4 Hours', price: '₹900' },
-  { duration: '5 Hours', price: '₹1,100' },
-  { duration: '6 Hours', price: '₹1,200' },
-  { duration: '7 Hours', price: '₹1,400' },
-  { duration: '8 Hours', price: '₹1,600' },
-]
-
-const stayPackages = [
-  { title: 'Night stay (8 PM – 10 AM)', price: '₹1,500' },
-  { title: '24 hrs booking (11:30 AM – 10 AM)', price: '₹1,700' },
-  { title: 'Square bed • 24 hrs', price: '₹1,700' },
-  { title: 'Round bed • 24 hrs', price: '₹1,900' },
-  { title: 'Night charge • Square bed', price: '₹1,300' },
-  { title: 'Night charge • Round bed', price: '₹1,500' },
-]
-
-const stayNotes = [
-  'Check-in for night stays begins at 8:00 PM with 11:00 AM check-out next day.',
-  '24-hour booking window: 11:30 AM entry with 10:00 AM check-out.',
-  'Complimentary packaged water bottle included with every booking.',
-  'Wifi, Android TV, AC, and hot water are available round the clock.',
-  'Decorations for birthdays/anniversaries arranged on request.',
-]
-
-const galleryImages = [
-  'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1501927023255-9063be98970d?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1505691723518-36a5ac3be353?auto=format&fit=crop&w=900&q=80',
-]
-
-const serviceChips = [
-  'Flexible hourly slots',
-  'Baner • Balewadi prime lane',
-  'Celebration-ready décor',
-  'Dedicated housekeeping',
-]
-
-const contact = {
-  phone: '+91 9494 69 7171',
-  email: 'stay@banerstays.com',
-  address: ['Baner Stays, Lane Number 7', 'Laxman Nagar, Balewadi', 'Pune 411045, Maharashtra'],
-  mapsLink: 'https://maps.app.goo.gl/Y4Lq37wiecg8y4zy9',
-}
-
-function ResilientImage({ src, alt, className }) {
-  const [attempt, setAttempt] = useState(0)
-  const [useFallback, setUseFallback] = useState(false)
-
-  const resolvedSrc = useFallback
-    ? fallbackImage
-    : attempt === 0
-      ? src
-      : `${src}${src.includes('?') ? '&' : '?'}retry=${attempt}`
-
-  const handleError = () => {
-    if (attempt < 2) {
-      setAttempt((prev) => prev + 1)
-    } else if (!useFallback) {
-      setUseFallback(true)
-    }
-  }
-
-  return (
-    <img src={resolvedSrc} alt={alt} className={className} loading="lazy" onError={handleError} />
-  )
+const facilityIcons = {
+  tv: <FiTv />,
+  ac: <FiThermometer />,
+  wifi: <FiWifi />,
+  parking: <MdLocalParking />,
+  sofa: <LuSofa />,
+  water: <FiDroplet />,
+  bottle: <TbBottle />,
+  housekeeping: <FiShield />,
+  decor: <TbSparkles />,
 }
 
 function App() {
+  const hourValues = hourlyRates.map((slot) => slot.hours)
+  const [selectedHours, setSelectedHours] = useState(hourValues[0])
+  const [selectedBed, setSelectedBed] = useState(roomConcepts[0]?.id || 'square')
+  const [showAllPhotos, setShowAllPhotos] = useState(false)
+
+  const selectedRate = useMemo(
+    () => hourlyRates.find((slot) => slot.hours === Number(selectedHours)),
+    [selectedHours],
+  )
+
+  const sliderPercentage =
+    ((Number(selectedHours) - hourValues[0]) / (hourValues[hourValues.length - 1] - hourValues[0])) *
+    100
+
+  const bedUpsell = selectedBed === 'round' ? 200 : 0
+  const plannerPrice =
+    selectedRate?.price != null ? `₹${(selectedRate.price + bedUpsell).toLocaleString('en-IN')}` : '—'
+
+  const visibleGalleryCount = showAllPhotos ? Infinity : 4
+
   return (
     <div className="page">
       <header className="hero-shell" id="about">
         <nav className="nav">
           <a className="brand" href="#about">
-            <span className="brand-mark" aria-hidden />
-            <div>
-              <p className="brand-label">Baner Stays</p>
-              <span>Hourly & 24 hr boutique stay</span>
-            </div>
+            <span className="brand-mark" aria-hidden>BS</span>
+            <p className="brand-label">Baner Stays</p>
           </a>
           <div className="nav-links">
             {navLinks.map((link) => (
@@ -150,10 +78,15 @@ function App() {
               </a>
             ))}
           </div>
-          <a className="primary" href="tel:+919494697171">
-            <FiPhoneCall />
-            Call now
-          </a>
+          <div className="nav-cta">
+            <a className="primary" href={socialLinks.call}>
+              <FiPhoneCall />
+              Call now
+            </a>
+            <a className="icon-pill" href={socialLinks.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+              <FaWhatsapp />
+            </a>
+          </div>
         </nav>
 
         <div className="hero">
@@ -161,9 +94,8 @@ function App() {
             <p className="eyebrow">Baner • Balewadi • Pune</p>
             <h1>Stay, unwind, and celebrate at Baner Stays</h1>
             <p className="lead">
-              Brand-new boutique hotel featuring AC rooms, Android TVs, and celebration-friendly
-              suites. Choose hourly slots or 24-hour bookings with reliable housekeeping, parking,
-              and concierge support—minutes from Balewadi High Street.
+              Boutique hotel with AC rooms, Android TVs, spacious parking, and concierge-led décor services.
+              Choose hourly slots or 24-hour stays minutes away from Balewadi High Street.
             </p>
             <div className="chip-row">
               {serviceChips.map((chip) => (
@@ -173,22 +105,18 @@ function App() {
               ))}
             </div>
             <div className="hero-actions">
-              <a className="primary" href="tel:+919494697171">
+              <a className="primary" href={socialLinks.call}>
                 <FiPhoneCall />
                 9494 69 7171
               </a>
-              <a className="secondary" href={contact.mapsLink} target="_blank" rel="noreferrer">
+              <a className="secondary" href={contactInfo.mapsLink} target="_blank" rel="noreferrer">
                 <FiMapPin />
                 Get directions
               </a>
             </div>
           </div>
           <div className="hero-visual">
-            <ResilientImage
-              src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1100&q=80"
-              alt="Baner Stays premium room"
-              className="hero-img"
-            />
+            <ResilientImage src={heroMedia.heroImage} alt="Baner Stays premium room" className="hero-img" />
             <div className="hero-floating">
               <div>
                 <FiClock />
@@ -211,19 +139,14 @@ function App() {
             <p className="eyebrow">Suites & moods</p>
             <h2>Choose the layout that fits your plan</h2>
             <p>
-              Whether you need a quick hourly recharge or a romantic night, Baner Stays curates two
-              versatile room types engineered for comfort and privacy.
+              Whether it’s a quick recharge or an evening celebration, Baner Stays offers curated setups with
+              reliable services and décor-ready spaces.
             </p>
           </div>
           <div className="suite-grid">
             {roomConcepts.map((concept) => (
-              <article className="suite-card" key={concept.title}>
-                <ResilientImage
-                  key={concept.image}
-                  src={concept.image}
-                  alt={concept.title}
-                  className="suite-img"
-                />
+              <article className="suite-card" key={concept.id}>
+                <ResilientImage src={concept.image} alt={concept.title} className="suite-img" />
                 <div className="suite-body">
                   <h3>{concept.title}</h3>
                   <p>{concept.description}</p>
@@ -245,9 +168,9 @@ function App() {
             <p>From Android TVs to packaged drinking water, every stay is celebration-ready.</p>
           </div>
           <div className="facility-grid">
-            {facilities.map((facility) => (
-              <article key={facility.title}>
-                <span className="facility-icon">{facility.icon}</span>
+            {facilityDetails.map((facility) => (
+              <article key={facility.id}>
+                <span className="facility-icon">{facilityIcons[facility.id]}</span>
                 <h3>{facility.title}</h3>
                 <p>{facility.detail}</p>
               </article>
@@ -259,19 +182,44 @@ function App() {
           <div className="section-head">
             <p className="eyebrow">Transparent pricing</p>
             <h2>Hourly slots & curated packages</h2>
-            <p>Pick a window that matches your itinerary—no hidden extras.</p>
+            <p>Use the planner to preview an hourly slot or browse preset stays.</p>
           </div>
           <div className="rate-layout">
-            <div className="rate-card">
-              <h3>Hourly bookings</h3>
-              <ul>
-                {hourlyRates.map((rate) => (
-                  <li key={rate.duration}>
-                    <span>{rate.duration}</span>
-                    <strong>{rate.price}</strong>
-                  </li>
+            <div className="rate-planner">
+              <div className="planner-header">
+                <p>Plan hourly visit</p>
+                <span>{selectedHours} hrs</span>
+              </div>
+              <input
+                type="range"
+                min={hourValues[0]}
+                max={hourValues[hourValues.length - 1]}
+                step="1"
+                value={selectedHours}
+                onChange={(event) => setSelectedHours(Number(event.target.value))}
+                className="planner-slider"
+                style={{ backgroundSize: `${sliderPercentage}% 100%` }}
+              />
+              <div className="slider-marks">
+                {hourlyRates.map((slot) => (
+                  <span key={slot.hours}>{slot.hours}h</span>
                 ))}
-              </ul>
+              </div>
+              <label className="planner-select">
+                Bed preference
+                <select value={selectedBed} onChange={(event) => setSelectedBed(event.target.value)}>
+                  {roomConcepts.map((concept) => (
+                    <option key={concept.id} value={concept.id}>
+                      {concept.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="planner-price">
+                <p>Slot investment</p>
+                <strong>{plannerPrice}</strong>
+                {selectedBed === 'round' && <small>Round bed includes décor-ready setup.</small>}
+              </div>
             </div>
             <div className="rate-card">
               <h3>Packages & bed choices</h3>
@@ -297,15 +245,25 @@ function App() {
             <p className="eyebrow">Space preview</p>
             <h2>Neutral palettes, warm lighting, and spotless upkeep</h2>
           </div>
-          <div className="gallery-grid">
-            {galleryImages.map((image) => (
-              <ResilientImage
-                key={image}
-                src={image}
-                alt="Baner Stays interior"
-                className="gallery-img"
-              />
-            ))}
+          {gallerySections.map((section) => (
+            <div className="gallery-section" key={section.id}>
+              <div className="gallery-header">
+                <h3>{section.label}</h3>
+                {!showAllPhotos && section.images.length > visibleGalleryCount && (
+                  <span>{section.images.length} photos</span>
+                )}
+              </div>
+              <div className="gallery-grid">
+                {section.images.slice(0, visibleGalleryCount).map((image) => (
+                  <ResilientImage key={`${section.id}-${image}`} src={image} alt={section.label} className="gallery-img" />
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="gallery-actions">
+            <button type="button" className="secondary" onClick={() => setShowAllPhotos((prev) => !prev)}>
+              {showAllPhotos ? 'Show less photos' : 'View more photos'}
+            </button>
           </div>
         </section>
 
@@ -316,28 +274,51 @@ function App() {
             <div className="contact-details">
               <p>
                 Phone:{' '}
-                <a href="tel:+919494697171" className="contact-link">
-                  {contact.phone}
+                <a href={socialLinks.call} className="contact-link">
+                  {contactInfo.phone}
                 </a>
               </p>
               <p>
                 Email:{' '}
-                <a href={`mailto:${contact.email}`} className="contact-link">
-                  {contact.email}
+                <a href={`mailto:${contactInfo.email}`} className="contact-link">
+                  {contactInfo.email}
                 </a>
               </p>
             </div>
             <div className="address">
-              {contact.address.map((line) => (
+              {contactInfo.address.map((line) => (
                 <p key={line}>{line}</p>
               ))}
             </div>
             <div className="contact-actions">
-              <a className="primary" href="tel:+919494697171">
+              <a className="primary" href={socialLinks.call}>
                 <FiPhoneCall /> Call to book
               </a>
-              <a className="secondary" href={contact.mapsLink} target="_blank" rel="noreferrer">
+              <a className="secondary" href={contactInfo.mapsLink} target="_blank" rel="noreferrer">
                 <FiMapPin /> Navigate
+              </a>
+            </div>
+            <div className="social-buttons">
+              <a className="icon-pill" href={socialLinks.call} aria-label="Call Baner Stays">
+                <FiPhoneCall />
+              </a>
+              <a
+                className="icon-pill"
+                href={socialLinks.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp Baner Stays"
+              >
+                <FaWhatsapp />
+              </a>
+              <a
+                className="icon-pill"
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Baner Stays Instagram"
+              >
+                <FiInstagram />
               </a>
             </div>
           </div>
@@ -346,7 +327,7 @@ function App() {
               title="Baner Stays location"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://maps.google.com/maps?q=Baner%20Stays%20Lane%20number%207%20Laxman%20Nagar%20Balewadi%20Pune%20411045&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Baner%20Stays%2C%20Lane%20Number%207%2C%20Laxman%20Nagar%2C%20Balewadi%2C%20Pune%20411045&t=&z=16&ie=UTF8&iwloc=&output=embed"
             />
           </div>
         </section>
@@ -355,11 +336,11 @@ function App() {
       <footer>
         <p>© {new Date().getFullYear()} Baner Stays. Boutique hourly hotel in Baner, Pune.</p>
         <div className="footer-links">
-          <a href="tel:+919494697171">Call</a>
-          <a href="https://wa.me/919494697171" target="_blank" rel="noreferrer">
+          <a href={socialLinks.call}>Call</a>
+          <a href={socialLinks.whatsapp} target="_blank" rel="noreferrer">
             WhatsApp
           </a>
-          <a href={contact.mapsLink} target="_blank" rel="noreferrer">
+          <a href={contactInfo.mapsLink} target="_blank" rel="noreferrer">
             Google Maps
           </a>
         </div>
