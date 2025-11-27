@@ -27,7 +27,7 @@ npm run preview   # optional: serve the dist folder locally
 ## GitHub Pages deployment
 
 1. Push the project to a GitHub repository and enable **Pages** with “GitHub Actions” as the source.
-2. The workflow in `.github/workflows/deploy.yml` automatically runs on every push to `main`.
+2. The workflow in `.github/workflows/deploy.yml` automatically runs on every push to `master`.
 3. The workflow sets `VITE_BASE_PATH` so the Vite build outputs assets under `/<repo-name>/`, which keeps routing correct on Pages.
 
 > Need a different branch or custom domain? Adjust the trigger branch inside the workflow and configure the Pages custom domain in the repository settings.
