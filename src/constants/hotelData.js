@@ -1,20 +1,25 @@
-const photoModules = import.meta.glob('../assets/photos/*.jpg', {
-  eager: true,
-  import: 'default',
-})
+import reception01 from '../assets/photos/common/reception/reception-01.jpg'
+import squareBed01 from '../assets/photos/rooms/square/square-bed-01.jpg'
+import squareBed02 from '../assets/photos/rooms/square/square-bed-02.jpg'
+import squareBed03 from '../assets/photos/rooms/square/square-bed-03.jpg'
+import roundBed01 from '../assets/photos/rooms/round/round-bed-01.jpg'
+import roundBed02 from '../assets/photos/rooms/round/round-bed-02.jpg'
+import roundBed03 from '../assets/photos/rooms/round/round-bed-03.jpg'
+import lobby01 from '../assets/photos/common/lobby/lobby-01.jpg'
+import lobby02 from '../assets/photos/common/lobby/lobby-02.jpg'
+import lobby03 from '../assets/photos/common/lobby/lobby-03.jpg'
+import exterior01 from '../assets/photos/common/exterior/exterior-01.jpg'
+import exterior02 from '../assets/photos/common/exterior/exterior-02.jpg'
+import exterior03 from '../assets/photos/common/exterior/exterior-03.jpg'
 
-const photoSources = Object.entries(photoModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, src]) => src)
-
-const pickRange = (start, end) => {
-  const slice = photoSources.slice(start, end)
-  return slice.length ? slice : photoSources
-}
+const squareBedImages = [squareBed01, squareBed02, squareBed03]
+const roundBedImages = [roundBed01, roundBed02, roundBed03]
+const lobbyImages = [lobby01, lobby02, lobby03]
+const exteriorImages = [exterior01, exterior02, exterior03]
 
 const heroMedia = {
-  heroImage: photoSources[photoSources.length - 1] || '',
-  secondaryImage: photoSources[photoSources.length - 2] || '',
+  heroImage: reception01,
+  secondaryImage: lobby01,
 }
 
 const roomConcepts = [
@@ -24,7 +29,8 @@ const roomConcepts = [
     description:
       'Bright, air-conditioned studio with premium square bed, Android TV, and a cozy nook for work or dining.',
     tags: ['Android TV', 'Spacious layout', 'Mood lighting'],
-    image: pickRange(0, 1)[0],
+    image: squareBed01,
+    gallery: squareBedImages,
   },
   {
     id: 'round',
@@ -32,7 +38,8 @@ const roomConcepts = [
     description:
       'Celebration-ready round bed suite featuring a couple couch, accent lighting, and décor options for birthdays or anniversaries.',
     tags: ['Round bed', 'Couple couch', 'Decor add-ons'],
-    image: pickRange(1, 2)[0],
+    image: roundBed01,
+    gallery: roundBedImages,
   },
 ]
 
@@ -94,17 +101,17 @@ const gallerySections = [
   {
     id: 'bedroom',
     label: 'Bedrooms',
-    images: pickRange(0, 8),
+    images: [...squareBedImages, ...roundBedImages],
   },
   {
     id: 'lobby',
     label: 'Lobby & Lounge',
-    images: pickRange(8, 16),
+    images: lobbyImages,
   },
   {
     id: 'exterior',
     label: 'Exterior & Surroundings',
-    images: pickRange(16, photoSources.length),
+    images: exteriorImages,
   },
 ]
 
