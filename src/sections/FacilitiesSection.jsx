@@ -35,8 +35,16 @@ function FacilitiesSection() {
           <article key={facility.id}>
             <span className="facility-icon">{iconMap[facility.id]}</span>
             <h3>{facility.title}</h3>
-            <p>{facility.detail}</p>
+            <p className="facility-detail">{facility.detail}</p>
           </article>
+        ))}
+      </div>
+      <div className="facility-compact">
+        {facilityDetails.map((facility) => (
+          <div key={facility.id} className="facility-item">
+            <span className="facility-icon">{iconMap[facility.id]}</span>
+            <span className="facility-name">{facility.title}</span>
+          </div>
         ))}
       </div>
     </section>

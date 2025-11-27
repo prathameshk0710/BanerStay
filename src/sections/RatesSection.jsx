@@ -50,18 +50,21 @@ function RatesSection() {
           </div>
           <label className="planner-select" htmlFor="bed-preference">
             Bed preference
-            <select
-              id="bed-preference"
-              name="bed-preference"
-              value={selectedBed}
-              onChange={(event) => setSelectedBed(event.target.value)}
-            >
-              {roomConcepts.map((concept) => (
-                <option key={concept.id} value={concept.id}>
-                  {concept.title}
-                </option>
-              ))}
-            </select>
+            <div className="select-wrapper">
+              <select
+                id="bed-preference"
+                name="bed-preference"
+                value={selectedBed}
+                onChange={(event) => setSelectedBed(event.target.value)}
+              >
+                {roomConcepts.map((concept) => (
+                  <option key={concept.id} value={concept.id}>
+                    {concept.title}
+                  </option>
+                ))}
+              </select>
+              <span className="select-arrow" aria-hidden="true">▼</span>
+            </div>
           </label>
           <div className="planner-price">
             <p>Slot investment</p>
@@ -85,6 +88,16 @@ function RatesSection() {
         {stayNotes.map((note) => (
           <p key={note}>{note}</p>
         ))}
+      </div>
+      <div className="info-strip-mobile">
+        <div className="info-card-mobile">
+          <h4>Important Information</h4>
+          <ul>
+            {stayNotes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   )

@@ -393,6 +393,22 @@ main {
   appearance: none;
 }
 
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #fdfdfd;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
 .planner-price {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 1.25rem;
@@ -693,6 +709,66 @@ footer {
   }
 }
 
+/* Burger menu */
+.burger-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #f4f6fb;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 21;
+}
+
+/* Mobile-only facilities compact view */
+.facility-compact {
+  display: none;
+}
+
+/* Mobile-only info card */
+.info-strip-mobile {
+  display: none;
+}
+
+.info-card-mobile {
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: radial-gradient(circle at top left, #141f35, #050912 60%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.info-card-mobile h4 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  color: #fcbc2c;
+}
+
+.info-card-mobile ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-card-mobile li {
+  padding-left: 1.25rem;
+  position: relative;
+  font-size: 0.9rem;
+  color: rgba(244, 246, 251, 0.85);
+  line-height: 1.5;
+}
+
+.info-card-mobile li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #fcbc2c;
+  font-weight: bold;
+}
+
 @media (max-width: 640px) {
   .hero-shell {
     padding: 1rem;
@@ -710,13 +786,121 @@ footer {
     margin-top: 1.25rem;
   }
 
+  /* Burger menu mobile */
+  .burger-toggle {
+    display: block;
+  }
+
   .nav {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
+    position: relative;
   }
 
   .nav-links {
-    justify-content: space-around;
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(4, 9, 18, 0.98);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .nav-links a {
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.2s ease;
+  }
+
+  .nav-links a:hover {
+    background: rgba(252, 188, 44, 0.15);
+    transform: none;
+  }
+
+  .nav-cta {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background: rgba(4, 9, 18, 0.98);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-cta.mobile-open {
+    display: flex;
+    animation: slideDown 0.3s ease-out 0.1s both;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Facilities mobile - hide cards, show compact */
+  .facility-grid {
+    display: none;
+  }
+
+  .facility-compact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background: radial-gradient(circle at top left, #141f35, #050912 60%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .facility-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .facility-item .facility-icon {
+    margin-bottom: 0;
+    font-size: 1.8rem;
+  }
+
+  .facility-name {
+    font-size: 0.85rem;
+    text-align: center;
+    color: rgba(244, 246, 251, 0.9);
+    font-weight: 500;
+  }
+
+  /* Info strip mobile - hide grid, show single card */
+  .info-strip {
+    display: none;
+  }
+
+  .info-strip-mobile {
+    display: block;
+    margin-top: 1.5rem;
   }
 
   .primary,
