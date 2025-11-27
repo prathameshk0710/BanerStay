@@ -1,21 +1,17 @@
 import reception01 from '../assets/photos/common/reception/reception-01.jpg'
 import squareBed01 from '../assets/photos/rooms/square/square-bed-01.jpg'
-import squareBed02 from '../assets/photos/rooms/square/square-bed-02.jpg'
-import squareBed03 from '../assets/photos/rooms/square/square-bed-03.jpg'
 import roundBed01 from '../assets/photos/rooms/round/round-bed-01.jpg'
-import roundBed02 from '../assets/photos/rooms/round/round-bed-02.jpg'
-import roundBed03 from '../assets/photos/rooms/round/round-bed-03.jpg'
 import lobby01 from '../assets/photos/common/lobby/lobby-01.jpg'
-import lobby02 from '../assets/photos/common/lobby/lobby-02.jpg'
-import lobby03 from '../assets/photos/common/lobby/lobby-03.jpg'
-import exterior01 from '../assets/photos/common/exterior/exterior-01.jpg'
-import exterior02 from '../assets/photos/common/exterior/exterior-02.jpg'
-import exterior03 from '../assets/photos/common/exterior/exterior-03.jpg'
 
-const squareBedImages = [squareBed01, squareBed02, squareBed03]
-const roundBedImages = [roundBed01, roundBed02, roundBed03]
-const lobbyImages = [lobby01, lobby02, lobby03]
-const exteriorImages = [exterior01, exterior02, exterior03]
+const squareBedImgFolder = import.meta.glob('../assets/photos/rooms/square/*.jpg', { eager: true });
+const roundBedImgFolder = import.meta.glob('../assets/photos/rooms/round/*.jpg', { eager: true });
+const lobbyImgFolder = import.meta.glob('../assets/photos/common/lobby/*.jpg', { eager: true });
+const extImgFolder = import.meta.glob('../assets/photos/common/exterior/*.jpg', { eager: true });
+
+const squareBedImages = Object.values(squareBedImgFolder).map((module) => module.default);
+const roundBedImages = Object.values(roundBedImgFolder).map((module) => module.default);
+const lobbyImages = Object.values(lobbyImgFolder).map((module) => module.default);
+const exteriorImages = Object.values(extImgFolder).map((module) => module.default);
 
 const heroMedia = {
   heroImage: reception01,

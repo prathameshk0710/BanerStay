@@ -58,7 +58,7 @@ function GallerySection() {
                     className="secondary gallery-toggle"
                     onClick={() => handleToggleSection(section.id)}
                   >
-                    {isExpanded ? 'Show less' : 'View more'}
+                    {isExpanded ? 'Show less' : 'Show more'}
                   </button>
                 )}
               </div>
